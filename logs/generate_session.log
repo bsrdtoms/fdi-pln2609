@@ -1,0 +1,188 @@
+
+[POLLING] Boucle de polling démarrée
+[POLLING] 20 cartas existantes ignorées
+[stderr] INFO:     Started server process [73516]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+
+======================================
+NUEVA LLAMADA /generate [17:15:07]
+ALIAS: lobo leal
+RECURSOS: {'piedra': 5, 'arroz': 1, 'queso': 2, 'oro': 13}
+OBJETIVO: {'madera': 3, 'trigo': 3, 'piedra': 4}
+BUZON: {
+  "a8d5caa0-b390-4f91-91a4-7dc8608a00a9": {
+    "remi": "burrito sabanero",
+    "dest": "lobo leal",
+    "asunto": "Propuesta",
+    "cuerpo": "Necesito:\n{\n  \"tela\": 2,\n  \"madera\": 5,\n  \"ladrillos\": 3\n}\n\nOfrezco:\n{\n  \"piedra\": 4,\n  \"queso\": 3\n}\n\nSi te interesa intercambiar, por favor propón un trato indicando:\n- qué recursos me ofreces y cuántas unidades\n- qué recursos quieres a cambio y cuántas unidades\n- si me has enviado ya recursos (confirmación de envío)",
+    "id": "a8d5caa0-b390-4f91-91a4-7dc8608a00a9",
+    "fecha": "2026-02-10T16:42:25.669458"
+  },
+  "9866b687-3512-45d1-9699-a4ca4e7f4cf2": {
+    "remi": "burrito sabanero",
+    "dest": "lobo leal",
+    "asunto": "Propuesta",
+    "cuerpo": "Necesito:\n{\n  \"tela\": 2,\n  \"madera\": 5,\n  \"ladrillos\": 3\n}\n\nOfrezco:\n{\n  \"piedra\": 4,\n  \"queso\": 3\n}\n\nSi te interesa intercambiar, por favor propón un trato indicando:\n- qué recursos me ofreces y cuántas unidades\n- qué recursos quieres a cambio y cuántas unidades\n- si me has enviado ya recursos (confirmación de envío)",
+    "id": "9866b687-3512-45d1-9699-a4ca4e7f4cf2",
+    "fecha": "2026-02-10T16:43:14.296712"
+  },
+  "cf4e7488-de80-42c8-9b08-c2eaa2614510": {
+    "remi": "burrito sabanero",
+    "dest": "lobo leal",
+    "asunto": "Propuesta",
+    "cuerpo": "Necesito:\n{\n  \"tela\": 2,\n  \"madera\": 5,\n  \"ladrillos\": 3\n}\n\nOfrezco:\n{\n  \"piedra\": 4,\n  \"queso\": 3\n}\n\nSi te interesa intercambiar, por favor propón un trato indicando:\n- qué recursos me ofreces y cuántas unidades\n- qué recursos quieres a cambio y cuántas unidades\n- si me has enviado ya recursos (confirmación de envío)",
+    "id": "cf4e7488-de80-42c8-9b08-c2eaa2614510",
+    "fecha": "2026-02-10T16:44:09.673534"
+  },
+  "45c1469e-d9ca-43fb-923d-21952c7f9097": {
+    "remi": "a",
+    "dest": "lobo leal",
+    "asunto": "Oferta de trueque",
+    "cuerpo": "Hola, tengo estos recursos de sobra:\n- ladrillos: 1\n- piedra: 4\n- tela: 4\n- oro: 8\n- arroz: 1\n",
+    "id": "45c1469e-d9ca-43fb-923d-21952c7f9097",
+    "fecha": "2026-02-10T16:46:37.283226"
+  },
+  "1bcd2307-027e-4032-a63d-b5618898c831": {
+    "remi": "burrito sabanero",
+    "dest": "lobo leal",
+    "asunto": "Propuesta",
+    "cuerpo": "Necesito:\n{\n  \"tela\": 2,\n  \"madera\": 5,\n  \"ladrillos\": 3\n}\n\nOfrezco:\n{\n  \"piedra\": 4,\n  \"queso\": 3\n}\n\nSi te interesa intercambiar, por favor propón un trato indicando:\n- qué recursos me ofreces y cuántas unidades\n- qué recursos quieres a cambio y cuántas unidades\n- si me has enviado ya recursos (confirmación de envío)",
+    "id": "1bcd2307-027e-4032-a63d-b5618898c831",
+    "fecha": "2026-02-10T16:49:57.029584"
+  },
+  "47048cf7-d932-4458-8e47-d0bbfe72c11f": {
+    "remi": "burrito sabanero",
+    "dest": "lobo leal",
+    "asunto": "Propuesta",
+    "cuerpo": "Necesito:\n{\n  \"tela\": 2,\n  \"madera\": 5,\n  \"ladrillos\": 3\n}\n\nOfrezco:\n{\n  \"piedra\": 4,\n  \"queso\": 3\n}\n\nSi te interesa intercambiar, por favor propón un trato indicando:\n- qué recursos me ofreces y cuántas unidades\n- qué recursos quieres a cambio y cuántas unidades\n- si me has enviado ya recursos (confirmación de envío)",
+    "id": "47048cf7-d932-4458-8e47-d0bbfe72c11f",
+    "fecha": "2026-02-10T16:54:28.140771"
+  },
+  "a4aa8d17-4f8a-4d1d-a3e4-a8000de0d273": {
+    "remi": "profe",
+    "dest": "lobo leal",
+    "asunto": "Gracias por tu carta!",
+    "cuerpo": "Gracias por enviar una carta. De momento no hago nada más que enviar oro de vuelta :)",
+    "id": "a4aa8d17-4f8a-4d1d-a3e4-a8000de0d273",
+    "fecha": "2026-02-10T17:00:23.913558"
+  },
+  "e94e0671-f39b-4727-a3e6-d296d5b75dff": {
+    "remi": "Sistema",
+    "dest": "lobo leal",
+    "asunto": "Paquete recibido",
+    "cuerpo": "Has recibido:\noro: 1",
+    "id": "e94e0671-f39b-4727-a3e6-d296d5b75dff",
+    "fecha": "2026-02-10T17:00:23.918478"
+  },
+  "8b025180-6d56-495c-895f-8899bcf17002": {
+    "remi": "AmarNoEsDelito",
+    "dest": "lobo leal",
+    "asunto": "Re: Busco intercambio",
+    "cuerpo": "Gracias por la oferta, lobo leal, pero por ahora no me conviene ese intercambio. Saludos, AmarNoEsDelito",
+    "id": "8b025180-6d56-495c-895f-8899bcf17002",
+    "fecha": "2026-02-10T17:00:33.528645"
+  },
+  "468714ab-859b-4d88-9267-9cf7979ecf9e": {
+    "remi": "Nortenios",
+    "dest": "lobo leal",
+    "asunto": "RE: Busco intercambio",
+    "cuerpo": "Error generando texto",
+    "id": "468714ab-859b-4d88-9267-9cf7979ecf9e",
+    "fecha": "2026-02-10T17:04:52.894645"
+  },
+  "fb15612b-2deb-41c7-8d67-a32f2f66309d": {
+    "remi": "garibaldi",
+    "dest": "lobo leal",
+    "asunto": "OFRECER",
+    "cuerpo": "2 de madera y 3 de trigo a cambio de 1 de piedra, 1 de arroz, 2 de queso y 12 de oro",
+    "id": "fb15612b-2deb-41c7-8d67-a32f2f66309d",
+    "fecha": "2026-02-10T17:04:55.935200"
+  },
+  "fae5af37-d7c1-489b-b141-98d6a14d604f": {
+    "remi": "PUMBA",
+    "dest": "lobo leal",
+    "asunto": "oferta",
+    "cuerpo": "Necesito 3 madera y 3 trigo. Ofrezco 1 piedra, 1 arroz, 2 queso y 12 oro. Confirmas?",
+    "id": "fae5af37-d7c1-489b-b141-98d6a14d604f",
+    "fecha": "2026-02-10T17:04:56.613995"
+  },
+  "8c47e83e-5e78-4212-a80e-1a1a616115f0": {
+    "remi": "garibaldi",
+    "dest": "lobo leal",
+    "asunto": "ACEPTAR",
+    "cuerpo": "1 piedra a cambio de 3 madera",
+    "id": "8c47e83e-5e78-4212-a80e-1a1a616115f0",
+    "fecha": "2026-02-10T17:06:06.032451"
+  },
+  "f8917bdd-42d3-436f-9b24-69d9c3aede87": {
+    "remi": "PUMBA",
+    "dest": "lobo leal",
+    "asunto": "oferta",
+    "cuerpo": "Necesito 3 madera y 3 trigo. Ofrezco 1 piedra, 1 arroz, 2 queso y 12 oro. Confirmas?",
+    "id": "f8917bdd-42d3-436f-9b24-69d9c3aede87",
+    "fecha": "2026-02-10T17:06:40.277730"
+  },
+  "94c86969-2148-4d7a-ba46-f1b2c0c2100c": {
+    "remi": "garibaldi",
+    "dest": "lobo leal",
+    "asunto": "ACEPTAR",
+    "cuerpo": "3 madera, 3 trigo",
+    "id": "94c86969-2148-4d7a-ba46-f1b2c0c2100c",
+    "fecha": "2026-02-10T17:06:53.121735"
+  },
+  "0cdb10f0-514c-41ba-b2dc-1d26c7469892": {
+    "remi": "garibaldi",
+    "dest": "lobo leal",
+    "asunto": "OFRECER",
+    "cuerpo": "2 madera, 3 trigo -> 1 piedra, 2 queso, 12 oro",
+    "id": "0cdb10f0-514c-41ba-b2dc-1d26c7469892",
+    "fecha": "2026-02-10T17:07:25.688027"
+  },
+  "dc6ec4ad-ea26-4e96-bb62-2fccad8b2bfa": {
+    "remi": "garibaldi",
+    "dest": "lobo leal",
+    "asunto": "ACEPTAR",
+    "cuerpo": "3 madera",
+    "id": "dc6ec4ad-ea26-4e96-bb62-2fccad8b2bfa",
+    "fecha": "2026-02-10T17:08:56.355040"
+  },
+  "d01f1eea-97a4-4b0e-a407-e5460163aee7": {
+    "remi": "burrito sabanero",
+    "dest": "lobo leal",
+    "asunto": "Propuesta",
+    "cuerpo": "Necesito:\n{\n  \"tela\": 2,\n  \"madera\": 5,\n  \"ladrillos\": 3\n}\n\nOfrezco:\n{\n  \"piedra\": 4,\n  \"queso\": 3\n}\n\nSi te interesa intercambiar, por favor propón un trato indicando:\n- qué recursos me ofreces y cuántas unidades\n- qué recursos quieres a cambio y cuántas unidades\n- si me has enviado ya recursos (confirmación de envío)",
+    "id": "d01f1eea-97a4-4b0e-a407-e5460163aee7",
+    "fecha": "2026-02-10T17:10:17.966795"
+  },
+  "f22c170e-d3ec-4fcc-90fa-10d5c11f7446": {
+    "remi": "burrito sabanero",
+    "dest": "lobo leal",
+    "asunto": "Propuesta",
+    "cuerpo": "Necesito:\n{\n  \"tela\": 2,\n  \"madera\": 5,\n  \"ladrillos\": 3\n}\n\nOfrezco:\n{\n  \"piedra\": 4,\n  \"queso\": 3\n}\n\nSi te interesa intercambiar, por favor propón un trato indicando:\n- qué recursos me ofreces y cuántas unidades\n- qué recursos quieres a cambio y cuántas unidades\n- si me has enviado ya recursos (confirmación de envío)",
+    "id": "f22c170e-d3ec-4fcc-90fa-10d5c11f7446",
+    "fecha": "2026-02-10T17:10:47.141767"
+  },
+  "723d7c64-49a1-4f05-bce2-78262843f57f": {
+    "remi": "garibaldi",
+    "dest": "lobo leal",
+    "asunto": "OFRECER",
+    "cuerpo": "3 madera, 2 trigo, 4 piedra, 2 queso, 12 oro, 1 arroz",
+    "id": "723d7c64-49a1-4f05-bce2-78262843f57f",
+    "fecha": "2026-02-10T17:13:52.946130"
+  }
+}
+OTROS AGENTES: ['groot', 'trilobite', 'burrito sabanero', 'LOS ELEGIDOS', 'tung tung tung sahur', 'ardilla feroz', 'mapache leal', 'Mercader_Supremo_01', 'PUMBA', 'AmarNoEsDelito', 'profe', 'Nortenios', 'mapache gallardo']
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion": "ofrecer", "dest": "garibaldi", "asunto": "Propuesta de intercambio", "cuerpo": "Te propongo: te doy 2 de tela a cambio de 3 de madera."}
+
+EJECUTANDO DECISIÓN: {'accion': 'ofrecer', 'dest': 'garibaldi', 'asunto': 'Propuesta de intercambio', 'cuerpo': 'Te propongo: te doy 2 de tela a cambio de 3 de madera.'}
+
+ENVIANDO CARTA DE 'lobo leal' A 'garibaldi'
+ASUNTO: Propuesta de intercambio
+CUERPO: Te propongo: te doy 2 de tela a cambio de 3 de madera.
+RESPUESTA BUTLER: 404 {"detail":"Destinatario no encontrado"}
+INFO:     127.0.0.1:40206 - "POST /generate HTTP/1.1" 200 OK

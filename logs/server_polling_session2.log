@@ -1,0 +1,609 @@
+
+[POLLING] Boucle de polling démarrée
+[POLLING] 34 cartas existantes ignorées
+[stderr] INFO:     Started server process [74816]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:31:05] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 queso por tu 1 trigo
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 queso y tú me das 1 trigo. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:31:55] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 tela por tu 1 madera
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 tela y tú me das 1 madera. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 6 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:32:25] ======
+DE: burrito sabanero | ASUNTO: Oferta: 1 madera por 1 tela
+CUERPO: Te propongo intercambiar 1 madera que necesito por 1 tela que te ofrezco.
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"analizar"}
+
+{"recurso_ofrecido":"madera", "necesito_entregar": false}
+
+{"accion":"ofrecer"}
+
+{"dest":"burrito sabanero", "asunto":"Propuesta de intercambio", "cuerpo":"Te propongo: te doy N de [recurso de SOBRAN] a cambio de M de [recurso de FALTAN]. En este caso, para el intercambio de 1 madera que necesitas, puedo ofrecerte hasta 3 piedras que tengo en sobra."}
+
+Esperando su respuesta...
+JSON inválido. Fallback a esperar.
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+====== NUEVA CARTA [17:32:27] ======
+DE: burrito sabanero | ASUNTO: Oferta: 1 madera por 1 piedra
+CUERPO: Te propongo intercambiar 1 madera que necesito por 1 piedra que te ofrezco.
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+====== NUEVA CARTA [17:32:28] ======
+DE: burrito sabanero | ASUNTO: Oferta: 1 madera por 1 queso
+CUERPO: Te propongo intercambiar 1 madera que necesito por 1 queso que te ofrezco.
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+====== NUEVA CARTA [17:32:28] ======
+DE: burrito sabanero | ASUNTO: Oferta: 1 ladrillos por 1 tela
+CUERPO: Te propongo intercambiar 1 ladrillos que necesito por 1 tela que te ofrezco.
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+====== NUEVA CARTA [17:32:28] ======
+DE: burrito sabanero | ASUNTO: Oferta: 1 ladrillos por 1 piedra
+CUERPO: Te propongo intercambiar 1 ladrillos que necesito por 1 piedra que te ofrezco.
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+====== NUEVA CARTA [17:32:29] ======
+DE: burrito sabanero | ASUNTO: Oferta: 1 ladrillos por 1 queso
+CUERPO: Te propongo intercambiar 1 ladrillos que necesito por 1 queso que te ofrezco.
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"ofrecer","dest":"burrito sabanero","asunto":"Propuesta de intercambio","cuerpo":"No tengo ladrillos que ofrecer, pero te doy N de 'queso' a cambio de M de 'ladrillos'."}
+
+En este caso, el remitente no ofrece ningún recurso que me falte y solo pide un recurso que no tengo. Por lo tanto, le propongo intercambiar otro recurso que sí poseo (queso) por el ladrillo que necesita.
+JSON inválido. Fallback a esperar.
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:33:00] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 queso por tu 1 ladrillos
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 queso y tú me das 1 ladrillos. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:34:01] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 tela por tu 1 trigo
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 tela y tú me das 1 trigo. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:34:41] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 queso por tu 1 madera
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 queso y tú me das 1 madera. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:35:32] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 queso por tu 1 ladrillos
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 queso y tú me das 1 ladrillos. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:36:22] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 tela por tu 1 trigo
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 tela y tú me das 1 trigo. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:37:22] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 queso por tu 1 madera
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 queso y tú me das 1 madera. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:37:43] ======
+DE: trilobite | ASUNTO: Propuesta de intercambio
+CUERPO: Hola lobo leal, soy trilobite. Necesito 1 de trigo. A cambio te ofrezco 100 de queso. Si te interesa, envíame el paquete.
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:38:13] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 queso por tu 1 ladrillos
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 queso y tú me das 1 ladrillos. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:39:03] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 tela por tu 1 trigo
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 tela y tú me das 1 trigo. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:39:54] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 queso por tu 1 madera
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 queso y tú me das 1 madera. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:40:34] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 queso por tu 1 ladrillos
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 queso y tú me das 1 ladrillos. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:41:25] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 queso por tu 1 trigo
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 queso y tú me das 1 trigo. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:42:15] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 queso por tu 1 ladrillos
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 queso y tú me das 1 ladrillos. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:43:05] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 queso por tu 1 trigo
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 queso y tú me das 1 trigo. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:44:06] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 queso por tu 1 ladrillos
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 queso y tú me das 1 ladrillos. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:44:46] ======
+DE: a | ASUNTO: Re: Propuesta de intercambio
+CUERPO: Hola 🙂 gracias por escribir.
+Yo podría cambiar 1 de ladrillos por 1 de queso.
+¿Te encaja?
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:45:06] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 queso por tu 1 trigo
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 queso y tú me das 1 trigo. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:45:47] ======
+DE: a | ASUNTO: Re: Busco intercambio
+CUERPO: Hola 🙂 gracias por escribir.
+Yo podría cambiar 1 de ladrillos por 1 de queso.
+¿Te encaja?
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:46:07] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 queso por tu 1 ladrillos
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 queso y tú me das 1 ladrillos. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:46:57] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 queso por tu 1 trigo
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 queso y tú me das 1 trigo. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:47:28] ======
+DE: Mercader_Supremo_01 | ASUNTO: Rechazado
+CUERPO: No puedo aceptar la oferta: pido trigo (no disponible) y no tengo queso para dar.
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:47:38] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 queso por tu 1 ladrillos
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 queso y tú me das 1 ladrillos. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:48:38] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 queso por tu 1 trigo
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 queso y tú me das 1 trigo. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:49:39] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 queso por tu 1 ladrillos
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 queso y tú me das 1 ladrillos. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:50:49] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 queso por tu 1 trigo
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 queso y tú me das 1 trigo. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:51:30] ======
+DE: Nortenios | ASUNTO: Propuesta comercial
+CUERPO: "Te cambio mi unidad de oro por tu unidad de piedra, ¿te interesa?"
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:51:40] ======
+DE: a | ASUNTO: Re: Busco intercambio
+CUERPO: Hola 🙂 gracias por escribir.
+Yo podría cambiar 1 de ladrillos por 1 de queso.
+¿Te encaja?
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:51:50] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 oro por tu 1 trigo
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 oro y tú me das 1 trigo. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:53:11] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 queso por tu 1 trigo
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 queso y tú me das 1 trigo. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:54:21] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 oro por tu 1 trigo
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 oro y tú me das 1 trigo. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:55:21] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 queso por tu 1 trigo
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 queso y tú me das 1 trigo. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:56:22] ======
+DE: LOS ELEGIDOS | ASUNTO: Busco piedra
+CUERPO: Necesito piedra. Te doy tela. ¿Hacemos trato?
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:56:42] ======
+DE: AmarNoEsDelito | ASUNTO: Propuesta: mi 1 oro por tu 1 trigo
+CUERPO: Hola lobo leal, soy AmarNoEsDelito. Te propongo un intercambio: yo te doy 1 oro y tú me das 1 trigo. Si aceptas, responde 'acepto el trato'. Si no te conviene, responde 'no me conviene'. Saludos, AmarNoEsDelito
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))

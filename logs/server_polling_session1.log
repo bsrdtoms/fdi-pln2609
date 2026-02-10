@@ -1,0 +1,56 @@
+
+[POLLING] Boucle de polling démarrée
+[POLLING] 20 cartas existantes ignorées
+[stderr] INFO:     Started server process [73619]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+
+ENVIANDO PAQUETE A 'garibaldi': {'piedra': 1, 'queso': 2, 'oro': 12}
+RESPUESTA BUTLER PAQUETE: 404 {"detail":"Destinatario no encontrado"}
+
+ENVIANDO CARTA DE 'lobo leal' A 'garibaldi'
+ASUNTO: Intercambio aceptado
+CUERPO: Acepto el trato. Te envié: {"piedra": 1, "queso": 2, "oro": 12}. Espero tu parte del intercambio.
+RESPUESTA BUTLER: 404 {"detail":"Destinatario no encontrado"}
+INFO:     127.0.0.1:58742 - "POST /aceptar/garibaldi HTTP/1.1" 200 OK
+
+[POLLING] 1 nouvelle(s) carta(s) détectée(s)
+
+====== NUEVA CARTA [17:19:31] ======
+DE: burrito sabanero | ASUNTO: Propuesta
+CUERPO: Necesito:
+{
+  "tela": 2,
+  "madera": 5,
+  "ladrillos": 3
+}
+
+Ofrezco:
+{
+  "piedra": 4,
+  "queso": 3
+}
+
+Si te interesa intercambiar, por favor propón un trato indicando:
+- qué recursos me ofreces y cuántas unidades
+- qué recursos quieres a cambio y cuántas unidades
+- si me has enviado ya recursos (confirmación de envío)
+
+===== CONSULTANDO OLLAMA =====
+RESPUESTA OLLAMA CRUDA:
+{"accion":"esperar"}
+
+EJECUTANDO DECISIÓN: {'accion': 'esperar'}
+DECISIÓN: {'accion': 'esperar'}
+RESULTADO: {'estado': 'esperando'}
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
+[POLLING] Erreur: HTTPConnectionPool(host='147.96.81.252', port=7719): Max retries exceeded with url: /info (Caused by NewConnectionError("HTTPConnection(host='147.96.81.252', port=7719): Failed to establish a new connection: [Errno 111] Connection refused"))
