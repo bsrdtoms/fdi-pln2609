@@ -253,6 +253,13 @@ def polling_loop():
     except Exception as e:
         log(f"[POLLING] Erreur init: {e}")
 
+    # Broadcast automatique au démarrage
+    try:
+        broadcast()
+        log("[POLLING] Broadcast initial envoyé")
+    except Exception as e:
+        log(f"[POLLING] Erreur broadcast initial: {e}")
+
     while True:
         time.sleep(POLL_INTERVAL)
         try:
