@@ -1,335 +1,197 @@
-from fastapi import FastAPI
-from contextlib import asynccontextmanager
-from pydantic import BaseModel
-import requests
-import json
-import threading
-import time
-from datetime import datetime
+"""
+app.py — Orquestación: polling, broadcasts y endpoints FastAPI.
 
-# =========================================================
-# CONFIGURACIÓN
-# =========================================================
+Agente autónomo de intercambio de recursos — FDI (Fundamentos de la Informática)
 
-OLLAMA_URL = "http://127.0.0.1:11434/api/generate"
-BUTLER_BASE_URL = "http://147.96.81.252:7719"
-MODEL = "mistral"
-POLL_INTERVAL = 10  # secondes entre chaque vérification
-
-# =========================================================
-# MODELO DE ESTADO
-# =========================================================
-
-class ButlerState(BaseModel):
-    Alias: str = ""
-    Recursos: dict
-    Objetivo: dict
-    Buzon: dict | None = None
-
-# =========================================================
-# FUNCIONES UTILITARIAS
-# =========================================================
-
-def obtener_estado() -> ButlerState:
-    r = requests.get(f"{BUTLER_BASE_URL}/info", timeout=10)
-    return ButlerState(**r.json())
-
-def obtener_otros_agentes(mi_alias: str) -> list[str]:
-    try:
-        r = requests.get(f"{BUTLER_BASE_URL}/gente", timeout=10)
-        gente = r.json()
-        return [g.get("Alias", g.get("alias", "")) for g in gente
-                if g.get("Alias", g.get("alias", "")) != mi_alias]
-    except Exception as e:
-        print("Error obteniendo agentes:", e)
-        return []
-
-def calcular_faltan_sobran(recursos: dict, objetivo: dict) -> tuple[dict, dict]:
-    faltan = {}
-    for rec, cant in objetivo.items():
-        tengo = recursos.get(rec, 0)
-        if cant > tengo:
-            faltan[rec] = cant - tengo
-    sobran = {}
-    for rec, cant in recursos.items():
-        necesito = objetivo.get(rec, 0)
-        if cant > necesito:
-            sobran[rec] = cant - necesito
-        elif rec not in objetivo:
-            sobran[rec] = cant
-    return faltan, sobran
-
-
-# =========================================================
-# PROMPTS
-# =========================================================
-
-def construir_prompt_nueva_carta(estado: ButlerState, carta: dict) -> str:
-    faltan, sobran = calcular_faltan_sobran(estado.Recursos, estado.Objetivo)
-    return f"""
-Eres un agente autónomo llamado "{estado.Alias}" dentro de un sistema de intercambio de recursos.
-
-ESTADO ACTUAL:
-- Recursos que posees: {json.dumps(estado.Recursos)}
-- Objetivo: {json.dumps(estado.Objetivo)}
-- Recursos que te FALTAN (necesitas conseguir): {json.dumps(faltan)}
-- Recursos que te SOBRAN (puedes ofrecer): {json.dumps(sobran)}
-
-REGLA ABSOLUTA: Solo puedes ofrecer lo que está en "SOBRAN": {json.dumps(sobran)}.
-Los ÚNICOS recursos que puedes dar son: {', '.join(f'{v} de {k}' for k, v in sobran.items())}.
-NUNCA ofrezcas un recurso que esté en "FALTAN". Esos son los que NECESITAS recibir.
-
-Acabas de recibir esta carta:
-- De: {carta.get("remi", "?")}
-- Asunto: {carta.get("asunto", "")}
-- Cuerpo: {carta.get("cuerpo", "")}
-
-INSTRUCCIONES:
-1. ANALIZA la carta: ¿el remitente ofrece algo que te FALTA?
-2. Si el remitente ACEPTA un intercambio o OFRECE enviarte recursos que te FALTAN:
-   USA "aceptar" para enviarle un paquete con los recursos de SOBRAN que pidió.
-   En "envio" pon SOLO recursos de SOBRAN con cantidades que NO excedan lo disponible.
-3. Si el remitente propone un intercambio pero aún no lo confirma, responde con "ofrecer".
-4. Si el remitente solo pide cosas y no ofrece nada que te falte, responde "esperar".
-5. NUNCA envíes recursos que no están en SOBRAN.
-
-FORMATO (JSON estricto, sin texto adicional):
-
-{{"accion":"esperar"}}
-
-{{"accion":"ofrecer","dest":"{carta.get("remi", "")}","asunto":"Propuesta de intercambio","cuerpo":"Te propongo: te doy N de [recurso de SOBRAN] a cambio de M de [recurso de FALTAN]."}}
-
-{{"accion":"aceptar","dest":"{carta.get("remi", "")}","envio":{{"recurso":cantidad}}}}
-
-Ejemplo de aceptar: {{"accion":"aceptar","dest":"agente1","envio":{{"piedra":1,"oro":5}}}}
-
-Devuelve SOLO el JSON.
+Arquitectura modular:
+  config.py — Constantes y modelo de datos compartido
+  butler.py — Cliente HTTP de Butler    (IA clásica: capa de acceso a datos)
+  agent.py  — Lógica de negocio         (IA clásica: validación y decisiones)
+  llm.py    — Prompts y consultas Ollama (IA moderna: negociación con LLM)
+  app.py    — Orquestación: polling, broadcasts y endpoints FastAPI
 """
 
+import json
+import logging
+import threading
+import time
+from contextlib import asynccontextmanager
+from datetime import datetime
 
-# =========================================================
-# CONSULTA A OLLAMA
-# =========================================================
+from fastapi import FastAPI
 
-def consultar_ollama(prompt: str) -> dict:
-    print("\n===== CONSULTANDO OLLAMA =====")
+import agent
+import butler
+import llm
+from config import ACCEPT_COOLDOWN, BROADCAST_INTERVAL, POLL_INTERVAL
 
-    response = requests.post(
-        OLLAMA_URL,
-        json={
-            "model": MODEL,
-            "prompt": prompt,
-            "stream": False
-        },
-        timeout=120
-    ).json()
+# ── Logging ───────────────────────────────────────────────────────────────────
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+    datefmt="%H:%M:%S",
+)
+logger = logging.getLogger(__name__)
 
-    texto = response.get("response", "").strip()
+# ── État global du polling ────────────────────────────────────────────────────
+cartas_vistas: set[str] = set()        # IDs des cartas déjà traitées
+broadcast_cooldown_until: float = 0.0  # Timestamp : n'accepte pas avant cette heure
 
-    print("RESPUESTA OLLAMA CRUDA:")
-    print(texto)
 
-    try:
-        return json.loads(texto)
-    except json.JSONDecodeError:
-        print("JSON inválido. Fallback a esperar.")
-        return {"accion": "esperar"}
+# ── Orchestration des broadcasts ──────────────────────────────────────────────
 
-# =========================================================
-# ENVÍO DE CARTAS A BUTLER
-# =========================================================
+def hacer_broadcast_completo() -> None:
+    """Exécute le cycle complet de broadcast : général + 1:1 + achats oro.
 
-def enviar_carta(remi: str, dest: str, asunto: str, cuerpo: str):
-    print(f"\nENVIANDO CARTA DE '{remi}' A '{dest}'", flush=True)
-    print("ASUNTO:", asunto, flush=True)
-    print("CUERPO:", cuerpo, flush=True)
+    Récupère l'état et la liste des agents UNE SEULE FOIS, puis délègue
+    aux fonctions de broadcast dans agent.py. Met à jour le cooldown global
+    après le broadcast 1:1 pour éviter les sur-engagements de ressources.
+    """
+    global broadcast_cooldown_until
+    estado = butler.obtener_estado()
+    otros  = butler.obtener_otros_agentes(estado.Alias)
 
-    r = requests.post(
-        f"{BUTLER_BASE_URL}/carta",
-        json={
-            "remi": remi,
-            "dest": dest,
-            "asunto": asunto,
-            "cuerpo": cuerpo
-        }
-    )
+    agent.hacer_broadcast_general(estado, otros)
+    agent.hacer_broadcast_propuestas_1a1(estado, otros)
+    broadcast_cooldown_until = time.time() + ACCEPT_COOLDOWN  # cooldown après 1:1
+    agent.hacer_broadcast_compras_con_oro(estado, otros)
 
-    print("RESPUESTA BUTLER:", r.status_code, r.text, flush=True)
+    logger.info("Broadcast completo enviado a %d agentes.", len(otros))
 
-def enviar_paquete(dest: str, recursos: dict):
-    print(f"\nENVIANDO PAQUETE A '{dest}': {recursos}", flush=True)
 
-    r = requests.post(
-        f"{BUTLER_BASE_URL}/paquete/{dest}",
-        json=recursos
-    )
+# ── Traitement des cartas ──────────────────────────────────────────────────────
 
-    print("RESPUESTA BUTLER PAQUETE:", r.status_code, r.text, flush=True)
+def _procesar_carta(estado, carta: dict) -> None:
+    """Traite une seule carta : prompt → LLM → décision → exécution.
 
-# =========================================================
-# EJECUCIÓN DE LA DECISIÓN
-# =========================================================
+    Si la décision est 'aceptar', déclenche un re-broadcast pour mettre
+    à jour les propositions avec les ressources actualisées post-échange.
 
-def validar_envio(envio: dict) -> dict | None:
-    """Vérifie qu'on a les ressources et qu'on n'envoie pas ce qu'on a besoin."""
-    estado = obtener_estado()
-    _, sobran = calcular_faltan_sobran(estado.Recursos, estado.Objetivo)
+    Args:
+        estado: État déjà récupéré par le polling_loop (pas de re-fetch HTTP).
+        carta:  La carta à traiter.
+    """
+    timestamp   = datetime.now().strftime("%H:%M:%S")
+    en_cooldown = time.time() < broadcast_cooldown_until
 
-    envio_valido = {}
-    for rec, cant in envio.items():
-        if not isinstance(cant, int) or cant <= 0:
-            continue
-        disponible = sobran.get(rec, 0)
-        if disponible > 0:
-            envio_valido[rec] = min(cant, disponible)
+    logger.info("[%s] CARTA de '%s' | %s", timestamp, carta.get("remi"), carta.get("asunto"))
+    logger.info("  Cuerpo: %s", str(carta.get("cuerpo", ""))[:120])
+    if en_cooldown:
+        logger.info("  [cooldown] %ds restantes", int(broadcast_cooldown_until - time.time()))
 
-    if not envio_valido:
-        return None
-    return envio_valido
+    prompt    = llm.construir_prompt_nueva_carta(estado, carta, en_cooldown=en_cooldown)
+    decision  = llm.consultar_ollama(prompt)
+    resultado = agent.ejecutar_decision(decision, estado.Alias or "agente", estado)
 
-def ejecutar_decision(decision: dict, mi_alias: str):
-    accion = decision.get("accion")
+    logger.info("  → %s", resultado)
 
-    print("\nEJECUTANDO DECISIÓN:", decision, flush=True)
+    if resultado.get("estado") == "aceptado_y_enviado":
+        logger.info("Post-accept: re-broadcast avec ressources mises à jour.")
+        try:
+            hacer_broadcast_completo()
+        except Exception as e:
+            logger.error("Erreur re-broadcast post-accept: %s", e)
 
-    if accion == "esperar":
-        return {"estado": "esperando"}
 
-    dest = decision.get("dest", "")
-    asunto = decision.get("asunto", "")
-    cuerpo = decision.get("cuerpo", "")
+# ── Boucle de polling ──────────────────────────────────────────────────────────
 
-    if accion == "aceptar" and dest:
-        envio = decision.get("envio", {})
-        envio_valido = validar_envio(envio)
-        if envio_valido:
-            enviar_paquete(dest, envio_valido)
-            enviar_carta(remi=mi_alias, dest=dest, asunto="Intercambio aceptado",
-                         cuerpo=f"Acepto el trato. Te envié: {json.dumps(envio_valido)}. Espero tu parte del intercambio.")
-            return {"estado": "aceptado_y_enviado", "paquete": envio_valido}
-        print(f"ENVIO BLOQUEADO: {envio} no es válido (no tienes esos recursos de sobra)", flush=True)
-        return {"estado": "envio_bloqueado"}
+def polling_loop() -> None:
+    """Boucle principale du daemon de polling.
 
-    if accion in ("pedir", "ofrecer") and dest and cuerpo:
-        enviar_carta(remi=mi_alias, dest=dest, asunto=asunto, cuerpo=cuerpo)
-        return {"estado": f"{accion}_enviado"}
+    1. Attend que Butler soit accessible au démarrage (retry toutes les 5s).
+    2. Marque les cartas existantes comme déjà vues (évite de les retraiter).
+    3. Envoie les broadcasts initiaux.
+    4. Toutes les POLL_INTERVAL secondes : détecte et traite les nouvelles cartas.
+    5. Toutes les BROADCAST_INTERVAL secondes : re-broadcast périodique.
+    """
+    logger.info("Polling démarré.")
 
-    print("Acción no válida o faltan campos. Se espera.", flush=True)
-    return {"estado": "esperando"}
-
-# =========================================================
-# BOUCLE DE POLLING AUTOMATIQUE
-# =========================================================
-
-cartas_vistas: set[str] = set()
-
-def procesar_nueva_carta(estado: ButlerState, carta: dict):
-    alias = estado.Alias or "agente"
-    timestamp = datetime.now().strftime("%H:%M:%S")
-
-    print(f"\n====== NUEVA CARTA [{timestamp}] ======")
-    print(f"DE: {carta.get('remi')} | ASUNTO: {carta.get('asunto')}")
-    print(f"CUERPO: {carta.get('cuerpo')}")
-
-    prompt = construir_prompt_nueva_carta(estado, carta)
-    decision = consultar_ollama(prompt)
-    resultado = ejecutar_decision(decision, alias)
-
-    print(f"DECISIÓN: {decision}")
-    print(f"RESULTADO: {resultado}")
-
-def log(msg: str):
-    print(msg, flush=True)
-
-def polling_loop():
-    log("\n[POLLING] Boucle de polling démarrée")
-    # Marquer les cartas existantes comme déjà vues
-    try:
-        estado = obtener_estado()
-        if estado.Buzon:
-            for carta_id in estado.Buzon:
+    # Attente de Butler
+    while True:
+        try:
+            estado = butler.obtener_estado()
+            for carta_id in (estado.Buzon or {}):
                 cartas_vistas.add(carta_id)
-        log(f"[POLLING] {len(cartas_vistas)} cartas existantes ignorées")
-    except Exception as e:
-        log(f"[POLLING] Erreur init: {e}")
+            logger.info("Butler connecté. %d cartas existantes ignorées.", len(cartas_vistas))
+            break
+        except Exception:
+            logger.warning("Butler non disponible, retry dans 5s...")
+            time.sleep(5)
 
-    # Broadcast automatique au démarrage
+    # Broadcasts initiaux
     try:
-        broadcast()
-        log("[POLLING] Broadcast initial envoyé")
+        hacer_broadcast_completo()
     except Exception as e:
-        log(f"[POLLING] Erreur broadcast initial: {e}")
+        logger.error("Erreur broadcast initial: %s", e)
 
+    ultimo_broadcast = time.time()
+
+    # Boucle principale
     while True:
         time.sleep(POLL_INTERVAL)
         try:
-            estado = obtener_estado()
-            buzon = estado.Buzon or {}
+            # Broadcast périodique
+            if time.time() - ultimo_broadcast >= BROADCAST_INTERVAL:
+                logger.info("Broadcast périodique...")
+                try:
+                    hacer_broadcast_completo()
+                    ultimo_broadcast = time.time()
+                except Exception as e:
+                    logger.error("Erreur broadcast périodique: %s", e)
 
-            nuevas = {cid: carta for cid, carta in buzon.items() if cid not in cartas_vistas}
-
+            # Détection des nouvelles cartas
+            estado = butler.obtener_estado()
+            nuevas = {
+                cid: carta
+                for cid, carta in (estado.Buzon or {}).items()
+                if cid not in cartas_vistas
+            }
             if nuevas:
-                log(f"\n[POLLING] {len(nuevas)} nouvelle(s) carta(s) détectée(s)")
-                for carta_id, carta in nuevas.items():
-                    cartas_vistas.add(carta_id)
-                    procesar_nueva_carta(estado, carta)
-        except Exception as e:
-            log(f"[POLLING] Erreur: {e}")
+                logger.info("%d nouvelle(s) carta(s) détectée(s).", len(nuevas))
+                for cid, carta in nuevas.items():
+                    cartas_vistas.add(cid)
+                    _procesar_carta(estado, carta)
 
-# =========================================================
-# LIFESPAN & APP
-# =========================================================
+        except Exception as e:
+            logger.error("Erreur polling: %s", e)
+
+
+# ── FastAPI ────────────────────────────────────────────────────────────────────
 
 @asynccontextmanager
-async def lifespan(a: FastAPI):
+async def lifespan(app: FastAPI):
     thread = threading.Thread(target=polling_loop, daemon=True)
     thread.start()
     yield
 
-app = FastAPI(title="Agente 51", lifespan=lifespan)
 
-# =========================================================
-# ENDPOINTS
-# =========================================================
+app = FastAPI(
+    title="Agente de intercambio de recursos",
+    description="Agent autonome FDI — architecture modulaire Butler / Agent / LLM",
+    lifespan=lifespan,
+)
+
 
 @app.post("/broadcast")
-def broadcast():
-    estado = obtener_estado()
-    alias = estado.Alias or "agente"
-    otros_agentes = obtener_otros_agentes(alias)
-    faltan, sobran = calcular_faltan_sobran(estado.Recursos, estado.Objetivo)
+def broadcast() -> dict:
+    """Déclenche manuellement un cycle complet de broadcast vers tous les agents."""
+    hacer_broadcast_completo()
+    return {"status": "broadcast envoyé"}
 
-    cuerpo = (
-        f"Hola, soy {alias}.\n"
-        f"Necesito: {', '.join(f'{v} de {k}' for k, v in faltan.items())}.\n"
-        f"Ofrezco a cambio: {', '.join(f'{v} de {k}' for k, v in sobran.items())}.\n"
-        f"Si te interesa, propón un intercambio concreto."
-    )
-
-    resultados = []
-    for dest in otros_agentes:
-        enviar_carta(remi=alias, dest=dest, asunto="Busco intercambio", cuerpo=cuerpo)
-        resultados.append(dest)
-
-    return {
-        "enviado_a": resultados,
-        "mensaje": cuerpo
-    }
 
 @app.post("/aceptar/{dest}")
-def aceptar(dest: str, envio: dict):
-    """Accepter un échange: envoie un paquete et une carta de confirmation."""
-    estado = obtener_estado()
-    alias = estado.Alias or "agente"
+def aceptar(dest: str, envio: dict) -> dict:
+    """Accepte manuellement un échange : envoie un paquet et une carta de confirmation."""
+    estado = butler.obtener_estado()
+    alias  = estado.Alias or "agente"
 
-    # Vérifier qu'on a les ressources
     for rec, cant in envio.items():
         if estado.Recursos.get(rec, 0) < cant:
-            return {"error": f"No tienes suficiente {rec} (tienes {estado.Recursos.get(rec, 0)}, quieres enviar {cant})"}
+            return {"error": f"No tienes suficiente {rec} (tienes {estado.Recursos.get(rec, 0)})"}
 
-    enviar_paquete(dest, envio)
-    enviar_carta(remi=alias, dest=dest, asunto="Intercambio aceptado",
-                 cuerpo=f"Acepto el trato. Te envié: {json.dumps(envio)}. Espero tu parte del intercambio.")
-
+    butler.enviar_paquete(dest, envio)
+    butler.enviar_carta(
+        remi=alias, dest=dest, asunto="Intercambio aceptado",
+        cuerpo=f"Acepto el trato. Te envié: {json.dumps(envio)}. Envíame tu parte si aún no lo has hecho.",
+    )
     return {"estado": "aceptado_y_enviado", "dest": dest, "paquete": envio}
-
