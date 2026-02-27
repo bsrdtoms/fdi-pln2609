@@ -5,10 +5,13 @@ Point d'entrée unique pour toutes les constantes et le modèle ButlerState,
 importé par tous les autres modules sans créer de cycles.
 """
 
+import os
+
 from pydantic import BaseModel
 
 # — Serveur Butler ——————————————————————————————————————————————————————————————
-BUTLER_BASE_URL: str = "http://147.96.84.134:7719"
+BUTLER_BASE_URL: str = os.environ.get("FDI_PLN__BUTLER_ADDRESS", "http://127.0.0.1:7719")
+AGENTE_SLOT: str = "lobo_leal"  # Identifiant de slot pour le mode monopuesto
 
 # — Modèle LLM local (Ollama) ——————————————————————————————————————————————————
 OLLAMA_URL: str = "http://127.0.0.1:11434/api/generate"

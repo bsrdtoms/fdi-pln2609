@@ -10,7 +10,7 @@ import logging
 
 import requests
 
-from config import BUTLER_BASE_URL, ButlerState
+from config import AGENTE_SLOT, BUTLER_BASE_URL, ButlerState
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +24,7 @@ def obtener_estado() -> ButlerState:
     Raises:
         requests.RequestException: Si Butler est inaccessible.
     """
-    r = requests.get(f"{BUTLER_BASE_URL}/info", timeout=10)
+    r = requests.get(f"{BUTLER_BASE_URL}/info", params={"agente": AGENTE_SLOT}, timeout=10)
     r.raise_for_status()
     return ButlerState(**r.json())
 
@@ -39,7 +39,7 @@ def obtener_otros_agentes(mi_alias: str) -> list[str]:
         Liste des alias. Retourne [] en cas d'erreur réseau.
     """
     try:
-        r = requests.get(f"{BUTLER_BASE_URL}/gente", timeout=10)
+        r = requests.get(f"{BUTLER_BASE_URL}/gente", params={"agente": AGENTE_SLOT}, timeout=10)
         r.raise_for_status()
         return [
             g.get("Alias", g.get("alias", ""))
@@ -63,6 +63,7 @@ def enviar_carta(remi: str, dest: str, asunto: str, cuerpo: str) -> None:
     logger.info("CARTA → %s | %s", dest, asunto)
     r = requests.post(
         f"{BUTLER_BASE_URL}/carta",
+        params={"agente": AGENTE_SLOT},
         json={"remi": remi, "dest": dest, "asunto": asunto, "cuerpo": cuerpo},
         timeout=10,
     )
@@ -79,6 +80,7 @@ def enviar_paquete(dest: str, recursos: dict) -> None:
     logger.info("PAQUETE → %s: %s", dest, recursos)
     r = requests.post(
         f"{BUTLER_BASE_URL}/paquete/{dest}",
+        params={"agente": AGENTE_SLOT},
         json=recursos,
         timeout=10,
     )
