@@ -1,5 +1,5 @@
 [project]
-name = "fdi-pln2609"
+name = "fdi-pln-2609-p1"
 version = "1.0.0"
 description = "Agente autonomo de intercambio de recursos - PLN"
 readme = "README.md"
@@ -13,7 +13,7 @@ dependencies = [
 ]
 
 [project.scripts]
-fdi-pln-2609 = "main:main"
+fdi-pln-2609-p1 = "main:main"
 
 [tool.hatch.build.targets.wheel]
 include = ["*.py"]

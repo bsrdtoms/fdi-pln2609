@@ -136,7 +136,7 @@ wheels = [
 ]
 
 [[package]]
-name = "fdi-pln2609"
+name = "fdi-pln-2609-p1"
 version = "1.0.0"
 source = { editable = "." }
 dependencies = [
