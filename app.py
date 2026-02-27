@@ -34,11 +34,12 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # ── État global du polling ────────────────────────────────────────────────────
-cartas_vistas: set[str] = set()        # IDs des cartas déjà traitées
+cartas_vistas: set[str] = set()  # IDs des cartas déjà traitées
 broadcast_cooldown_until: float = 0.0  # Timestamp : n'accepte pas avant cette heure
 
 
 # ── Orchestration des broadcasts ──────────────────────────────────────────────
+
 
 def hacer_broadcast_completo() -> None:
     """Exécute le cycle complet de broadcast : général + 1:1 + achats oro.
@@ -49,7 +50,7 @@ def hacer_broadcast_completo() -> None:
     """
     global broadcast_cooldown_until
     estado = butler.obtener_estado()
-    otros  = butler.obtener_otros_agentes(estado.Alias)
+    otros = butler.obtener_otros_agentes(estado.Alias)
 
     agent.hacer_broadcast_general(estado, otros)
     agent.hacer_broadcast_propuestas_1a1(estado, otros)
@@ -61,6 +62,7 @@ def hacer_broadcast_completo() -> None:
 
 # ── Traitement des cartas ──────────────────────────────────────────────────────
 
+
 def _procesar_carta(estado, carta: dict) -> None:
     """Traite une seule carta : prompt → LLM → décision → exécution.
 
@@ -71,16 +73,20 @@ def _procesar_carta(estado, carta: dict) -> None:
         estado: État déjà récupéré par le polling_loop (pas de re-fetch HTTP).
         carta:  La carta à traiter.
     """
-    timestamp   = datetime.now().strftime("%H:%M:%S")
+    timestamp = datetime.now().strftime("%H:%M:%S")
     en_cooldown = time.time() < broadcast_cooldown_until
 
-    logger.info("[%s] CARTA de '%s' | %s", timestamp, carta.get("remi"), carta.get("asunto"))
+    logger.info(
+        "[%s] CARTA de '%s' | %s", timestamp, carta.get("remi"), carta.get("asunto")
+    )
     logger.info("  Cuerpo: %s", str(carta.get("cuerpo", ""))[:120])
     if en_cooldown:
-        logger.info("  [cooldown] %ds restantes", int(broadcast_cooldown_until - time.time()))
+        logger.info(
+            "  [cooldown] %ds restantes", int(broadcast_cooldown_until - time.time())
+        )
 
-    prompt    = llm.construir_prompt_nueva_carta(estado, carta, en_cooldown=en_cooldown)
-    decision  = llm.consultar_ollama(prompt)
+    prompt = llm.construir_prompt_nueva_carta(estado, carta, en_cooldown=en_cooldown)
+    decision = llm.consultar_ollama(prompt)
     resultado = agent.ejecutar_decision(decision, estado.Alias or "agente", estado)
 
     logger.info("  → %s", resultado)
@@ -94,6 +100,7 @@ def _procesar_carta(estado, carta: dict) -> None:
 
 
 # ── Boucle de polling ──────────────────────────────────────────────────────────
+
 
 def polling_loop() -> None:
     """Boucle principale du daemon de polling.
@@ -110,9 +117,11 @@ def polling_loop() -> None:
     while True:
         try:
             estado = butler.obtener_estado()
-            for carta_id in (estado.Buzon or {}):
+            for carta_id in estado.Buzon or {}:
                 cartas_vistas.add(carta_id)
-            logger.info("Butler connecté. %d cartas existantes ignorées.", len(cartas_vistas))
+            logger.info(
+                "Butler connecté. %d cartas existantes ignorées.", len(cartas_vistas)
+            )
             break
         except Exception:
             logger.warning("Butler non disponible, retry dans 5s...")
@@ -158,6 +167,7 @@ def polling_loop() -> None:
 
 # ── FastAPI ────────────────────────────────────────────────────────────────────
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     thread = threading.Thread(target=polling_loop, daemon=True)
@@ -183,15 +193,19 @@ def broadcast() -> dict:
 def aceptar(dest: str, envio: dict) -> dict:
     """Accepte manuellement un échange : envoie un paquet et une carta de confirmation."""
     estado = butler.obtener_estado()
-    alias  = estado.Alias or "agente"
+    alias = estado.Alias or "agente"
 
     for rec, cant in envio.items():
         if estado.Recursos.get(rec, 0) < cant:
-            return {"error": f"No tienes suficiente {rec} (tienes {estado.Recursos.get(rec, 0)})"}
+            return {
+                "error": f"No tienes suficiente {rec} (tienes {estado.Recursos.get(rec, 0)})"
+            }
 
     butler.enviar_paquete(dest, envio)
     butler.enviar_carta(
-        remi=alias, dest=dest, asunto="Intercambio aceptado",
+        remi=alias,
+        dest=dest,
+        asunto="Intercambio aceptado",
         cuerpo=f"Acepto el trato. Te envié: {json.dumps(envio)}. Envíame tu parte si aún no lo has hecho.",
     )
     return {"estado": "aceptado_y_enviado", "dest": dest, "paquete": envio}

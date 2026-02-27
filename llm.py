@@ -20,14 +20,27 @@ logger = logging.getLogger(__name__)
 
 # ── Classification des cartas ──────────────────────────────────────────────────
 
-_KEYWORDS_CONFIRMACION = frozenset([
-    "acepto", "trato cerrado", "de acuerdo", "confirmado",
-    "te envié", "enviado", "trato hecho", "intercambio aceptado",
-])
-_KEYWORDS_PROPUESTA = frozenset([
-    "te propongo", "te ofrezco", "a cambio de",
-    "quiero cambiar", "intercambio",
-])
+_KEYWORDS_CONFIRMACION = frozenset(
+    [
+        "acepto",
+        "trato cerrado",
+        "de acuerdo",
+        "confirmado",
+        "te envié",
+        "enviado",
+        "trato hecho",
+        "intercambio aceptado",
+    ]
+)
+_KEYWORDS_PROPUESTA = frozenset(
+    [
+        "te propongo",
+        "te ofrezco",
+        "a cambio de",
+        "quiero cambiar",
+        "intercambio",
+    ]
+)
 
 _CONTEXTO_POR_TIPO: dict[str, str] = {
     "sistema": (
@@ -61,7 +74,7 @@ def _clasificar_carta(carta: dict) -> str:
     Returns:
         Type de carta : 'sistema', 'confirmacion', 'propuesta', ou 'general'.
     """
-    remi  = (carta.get("remi")   or "").lower()
+    remi = (carta.get("remi") or "").lower()
     texto = f"{carta.get('asunto', '')} {carta.get('cuerpo', '')}".lower()
 
     if remi == "sistema":
@@ -74,6 +87,7 @@ def _clasificar_carta(carta: dict) -> str:
 
 
 # ── Construction du prompt ─────────────────────────────────────────────────────
+
 
 def construir_prompt_nueva_carta(
     estado: ButlerState,
@@ -99,9 +113,13 @@ def construir_prompt_nueva_carta(
     remi = carta.get("remi", "?")
 
     aviso_cooldown = (
-        "\n⚠️ MODO ESPERA ACTIVO: Acabamos de enviar propuestas masivas. "
-        "NO aceptes todavía. Responde con 'ofrecer' si el trato es interesante.\n"
-    ) if en_cooldown else ""
+        (
+            "\n⚠️ MODO ESPERA ACTIVO: Acabamos de enviar propuestas masivas. "
+            "NO aceptes todavía. Responde con 'ofrecer' si el trato es interesante.\n"
+        )
+        if en_cooldown
+        else ""
+    )
 
     faltan_str = ", ".join(f"{v} de {k}" for k, v in faltan.items()) or "ninguno"
     sobran_str = ", ".join(f"{v} de {k}" for k, v in sobran.items()) or "ninguno"
@@ -149,6 +167,7 @@ Devuelve SOLO el JSON."""
 
 # ── Consultation Ollama ────────────────────────────────────────────────────────
 
+
 def consultar_ollama(prompt: str) -> dict:
     """Envoie le prompt à Ollama et parse la décision JSON.
 
@@ -175,7 +194,7 @@ def consultar_ollama(prompt: str) -> dict:
     try:
         return json.loads(texto)
     except json.JSONDecodeError:
-        match = re.search(r'\{[^{}]+\}', texto)
+        match = re.search(r"\{[^{}]+\}", texto)
         if match:
             try:
                 return json.loads(match.group())

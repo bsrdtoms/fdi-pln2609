@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 
 # ── Calcul des ressources ──────────────────────────────────────────────────────
 
+
 def calcular_faltan_sobran(recursos: dict, objetivo: dict) -> tuple[dict, dict]:
     """Calcule les ressources manquantes et excédentaires.
 
@@ -46,6 +47,7 @@ def calcular_faltan_sobran(recursos: dict, objetivo: dict) -> tuple[dict, dict]:
 
 
 # ── Validation et exécution ────────────────────────────────────────────────────
+
 
 def validar_envio(envio: dict, estado: ButlerState) -> dict | None:
     """Valide et plafonne un envoi proposé contre les ressources réellement disponibles.
@@ -100,19 +102,24 @@ def ejecutar_decision(decision: dict, mi_alias: str, estado: ButlerState) -> dic
             recibir_txt = f" Espero recibir: {json.dumps(recibir)}." if recibir else ""
             enviar_paquete(dest, envio_valido)
             enviar_carta(
-                remi=mi_alias, dest=dest, asunto="Intercambio aceptado",
+                remi=mi_alias,
+                dest=dest,
+                asunto="Intercambio aceptado",
                 cuerpo=(
                     f"Acepto el trato. Te envié: {json.dumps(envio_valido)}.{recibir_txt}"
                     " Envíame tu parte si aún no lo has hecho."
                 ),
             )
             return {"estado": "aceptado_y_enviado", "paquete": envio_valido}
-        logger.warning("Envío bloqueado: %s no disponible en SOBRAN", decision.get("envio"))
+        logger.warning(
+            "Envío bloqueado: %s no disponible en SOBRAN", decision.get("envio")
+        )
         return {"estado": "envio_bloqueado"}
 
     if accion in ("pedir", "ofrecer") and dest and decision.get("cuerpo"):
         enviar_carta(
-            remi=mi_alias, dest=dest,
+            remi=mi_alias,
+            dest=dest,
             asunto=decision.get("asunto", "Propuesta de intercambio"),
             cuerpo=decision["cuerpo"],
         )
@@ -123,6 +130,7 @@ def ejecutar_decision(decision: dict, mi_alias: str, estado: ButlerState) -> dic
 
 
 # ── Broadcasts ─────────────────────────────────────────────────────────────────
+
 
 def hacer_broadcast_general(estado: ButlerState, otros: list[str]) -> list[str]:
     """Envoie une carta d'annonce générale (besoins/offres) à tous les agents.

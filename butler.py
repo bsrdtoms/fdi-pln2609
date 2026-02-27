@@ -24,7 +24,9 @@ def obtener_estado() -> ButlerState:
     Raises:
         requests.RequestException: Si Butler est inaccessible.
     """
-    r = requests.get(f"{BUTLER_BASE_URL}/info", params={"agente": AGENTE_SLOT}, timeout=10)
+    r = requests.get(
+        f"{BUTLER_BASE_URL}/info", params={"agente": AGENTE_SLOT}, timeout=10
+    )
     r.raise_for_status()
     return ButlerState(**r.json())
 
@@ -39,7 +41,9 @@ def obtener_otros_agentes(mi_alias: str) -> list[str]:
         Liste des alias. Retourne [] en cas d'erreur réseau.
     """
     try:
-        r = requests.get(f"{BUTLER_BASE_URL}/gente", params={"agente": AGENTE_SLOT}, timeout=10)
+        r = requests.get(
+            f"{BUTLER_BASE_URL}/gente", params={"agente": AGENTE_SLOT}, timeout=10
+        )
         r.raise_for_status()
         return [
             g.get("Alias", g.get("alias", ""))
