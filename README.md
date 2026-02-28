@@ -61,9 +61,10 @@ Internal parameters in `config.py`:
 
 ## Negotiation strategy
 
-1. On startup: general broadcast + 1:1 proposals + purchases with oro
-2. Polling every 10s: detection of new cartas
-3. For each carta: classification (sistema / confirmacion / propuesta / general)
-4. Contextualised LLM prompt → JSON decision (`esperar` / `ofrecer` / `aceptar`)
-5. Send validation (safety net against LLM hallucinations)
-6. Automatic broadcast after each accepted exchange
+1. On startup: wait for Butler → mark existing cartas as seen → general broadcast + 1:1 proposals + purchases with oro
+2. After the 1:1 broadcast: **60s cooldown** — the LLM is warned not to accept immediately (prevents over-committing resources)
+3. Polling every 10s: detection of new cartas
+4. For each carta: classification (`sistema` / `confirmacion` / `propuesta` / `general`)
+5. Contextualised LLM prompt → JSON decision (`esperar` / `ofrecer` / `pedir` / `aceptar`)
+6. Send validation (safety net against LLM hallucinations)
+7. Automatic full re-broadcast after each accepted exchange

@@ -61,9 +61,10 @@ Parámetros internos en `config.py`:
 
 ## Estrategia de negociación
 
-1. Al arrancar: broadcast general + propuestas 1:1 + compras con oro
-2. Polling cada 10s: detección de nuevas cartas
-3. Para cada carta: clasificación (sistema / confirmacion / propuesta / general)
-4. Prompt LLM contextualizado → decisión JSON (`esperar` / `ofrecer` / `aceptar`)
-5. Validación de envíos (red de seguridad contra alucinaciones del LLM)
-6. Broadcast automático tras cada intercambio aceptado
+1. Al arrancar: espera a Butler → marca las cartas existentes como vistas → broadcast general + propuestas 1:1 + compras con oro
+2. Tras el broadcast 1:1: **cooldown de 60s** — el LLM recibe aviso de no aceptar inmediatamente (evita el sobrecompromiso de recursos)
+3. Polling cada 10s: detección de nuevas cartas
+4. Para cada carta: clasificación (`sistema` / `confirmacion` / `propuesta` / `general`)
+5. Prompt LLM contextualizado → decisión JSON (`esperar` / `ofrecer` / `pedir` / `aceptar`)
+6. Validación de envíos (red de seguridad contra alucinaciones del LLM)
+7. Re-broadcast completo automático tras cada intercambio aceptado
