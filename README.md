@@ -1,67 +1,69 @@
-# fdi-pln-2609-p1 — Agente "lobo leal"
+# fdi-pln-2609-p1 — Agent "lobo leal"
 
-Agent autonome d'echange de ressources — Práctica 1, PLN (Procesamiento de Lenguaje Natural)
+Autonomous resource exchange agent — Práctica 1, PLN (Natural Language Processing)
 
-## Equipo
+> 🌐 [Lire en français](README.fr.md) | [Leer en español](README.es.md)
 
-| Nombre | Trabajo |
-|--------|---------|
-| Thomas BOSSARD | Desarrollo completo del agente |
+## Team
+
+| Name | Work |
+|------|------|
+| Thomas BOSSARD | Full agent development |
 
 ## Description
 
-Agent autonome qui participe a un systeme multi-agents d'echange de ressources. Chaque agent possede des ressources et un objectif (ensemble de ressources a atteindre). Les agents communiquent via un serveur central **Butler** en s'envoyant des *cartas* (messages) et des *paquetes* (transferts de ressources).
+Autonomous agent participating in a multi-agent resource exchange system. Each agent holds resources and has an objective (a set of resources to reach). Agents communicate via a central **Butler** server by exchanging *cartas* (messages) and *paquetes* (resource transfers).
 
-Le LLM local (qwen2.5-coder:3b via Ollama) decide automatiquement comment repondre aux propositions d'echange recues.
+A local LLM (qwen2.5-coder:3b via Ollama) automatically decides how to respond to incoming exchange proposals.
 
 ## Architecture
 
 ```
-config.py  — Constantes et modele de donnees (ButlerState)
-butler.py  — Client HTTP vers Butler (acces aux donnees)
-agent.py   — Logique metier (calculs FALTAN/SOBRAN, validation, broadcasts)
-llm.py     — Prompts et interface Ollama (decisions de negociation)
-app.py     — Orchestration FastAPI (polling, broadcasts, endpoints)
-main.py    — Point d'entree
+config.py  — Constants and data model (ButlerState)
+butler.py  — HTTP client to Butler (data access)
+agent.py   — Business logic (FALTAN/SOBRAN calculations, validation, broadcasts)
+llm.py     — Prompts and Ollama interface (negotiation decisions)
+app.py     — FastAPI orchestration (polling, broadcasts, endpoints)
+main.py    — Entry point
 ```
 
-## Lancement
+## Getting started
 
 ```bash
-# Prerequis : Ollama avec qwen2.5-coder:3b
+# Prerequisite: Ollama with qwen2.5-coder:3b
 ollama pull qwen2.5-coder:3b
 
-# Lancer l'agent (Butler doit etre accessible)
+# Start the agent (Butler must be reachable)
 FDI_PLN__BUTLER_ADDRESS=http://<butler_host>:7719 uv run fdi-pln-2609-p1
 ```
 
 ## Configuration
 
-| Variable d'environnement | Defaut | Description |
-|--------------------------|--------|-------------|
-| `FDI_PLN__BUTLER_ADDRESS` | `http://127.0.0.1:7719` | URL du serveur Butler |
+| Environment variable | Default | Description |
+|----------------------|---------|-------------|
+| `FDI_PLN__BUTLER_ADDRESS` | `http://127.0.0.1:7719` | Butler server URL |
 
-Parametres internes dans `config.py` :
+Internal parameters in `config.py`:
 
-| Variable | Valeur | Description |
-|----------|--------|-------------|
-| `MODEL` | `qwen2.5-coder:3b` | Modele Ollama |
-| `POLL_INTERVAL` | `10s` | Intervalle de polling du buzon |
-| `BROADCAST_INTERVAL` | `300s` | Intervalle entre broadcasts periodiques |
-| `ACCEPT_COOLDOWN` | `60s` | Delai avant d'accepter apres un broadcast 1:1 |
+| Variable | Value | Description |
+|----------|-------|-------------|
+| `MODEL` | `qwen2.5-coder:3b` | Ollama model |
+| `POLL_INTERVAL` | `10s` | Mailbox polling interval |
+| `BROADCAST_INTERVAL` | `300s` | Interval between periodic broadcasts |
+| `ACCEPT_COOLDOWN` | `60s` | Delay before accepting after a 1:1 broadcast |
 
-## Endpoints de l'agent
+## Agent endpoints
 
-| Methode | Endpoint | Description |
-|---------|----------|-------------|
-| POST | `/broadcast` | Declenche un broadcast vers tous les agents |
-| POST | `/aceptar/{dest}` | Accepte manuellement un echange |
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/broadcast` | Triggers a broadcast to all agents |
+| POST | `/aceptar/{dest}` | Manually accepts an exchange |
 
-## Strategie de negociation
+## Negotiation strategy
 
-1. Au demarrage : broadcast general + propositions 1:1 + achats avec oro
-2. Polling toutes les 10s : detection des nouvelles cartas
-3. Pour chaque carta : classification (sistema / confirmacion / propuesta / general)
-4. Prompt LLM contextualise → decision JSON (`esperar` / `ofrecer` / `aceptar`)
-5. Validation des envois (filet de securite contre les hallucinations LLM)
-6. Broadcast automatique apres chaque echange accepte
+1. On startup: general broadcast + 1:1 proposals + purchases with oro
+2. Polling every 10s: detection of new cartas
+3. For each carta: classification (sistema / confirmacion / propuesta / general)
+4. Contextualised LLM prompt → JSON decision (`esperar` / `ofrecer` / `aceptar`)
+5. Send validation (safety net against LLM hallucinations)
+6. Automatic broadcast after each accepted exchange
